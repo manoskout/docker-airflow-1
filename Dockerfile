@@ -1,11 +1,11 @@
 # VERSION 1.10.9
-# AUTHOR: Matthieu "Puckel_" Roisil
+# AUTHOR: Manos Koutoulakis
 # DESCRIPTION: Basic Airflow container
-# BUILD: docker build --rm -t puckel/docker-airflow .
-# SOURCE: https://github.com/puckel/docker-airflow
+# BUILD: docker build --rm -t manoskoutoulakis/docker-obc-airflow .
+# SOURCE: https://github.com/manoskout/docker-obc-airflow
 
 FROM python:3.7-slim-buster
-LABEL maintainer="Puckel_"
+LABEL maintainer="Koutoulakis"
 
 # Never prompt the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -50,6 +50,7 @@ RUN set -ex \
         rsync \
         netcat \
         locales \
+	vim \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
@@ -81,6 +82,12 @@ RUN chown -R airflow: ${AIRFLOW_USER_HOME}
 EXPOSE 8080 5555 8793
 
 USER airflow
+RUN mkdir -p ${AIRFLOW_USER_HOME}/WORK
+RUN mkdir -p ${AIRFLOW_USER_HOME}/TOOL
+RUN mkdir -p ${AIRFLOW_USER_HOME}/DATA
+
 WORKDIR ${AIRFLOW_USER_HOME}
+
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["webserver"]
