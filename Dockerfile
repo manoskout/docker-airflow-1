@@ -89,7 +89,8 @@ RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS/TOOL
 RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS/DATA
 
 WORKDIR ${AIRFLOW_USER_HOME}
-
+# Temporary sollution
+RUN mkdir -m777 ${AIRFLOW_USER_HOME}/logs
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["webserver"]
