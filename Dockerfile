@@ -43,6 +43,7 @@ RUN set -ex \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
         freetds-bin \
+	file \
         build-essential \
         default-libmysqlclient-dev \
         apt-utils \
@@ -75,16 +76,17 @@ RUN set -ex \
         /usr/share/doc-base
 
 COPY script/entrypoint.sh /entrypoint.sh
-COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
+#COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}
 
 EXPOSE 8080 5555 8793
 
 USER airflow
-RUN mkdir -p ${AIRFLOW_USER_HOME}/WORK
-RUN mkdir -p ${AIRFLOW_USER_HOME}/TOOL
-RUN mkdir -p ${AIRFLOW_USER_HOME}/DATA
+RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS
+RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS/WORK
+RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS/TOOL
+RUN mkdir -m777 ${AIRFLOW_USER_HOME}/REPORTS/DATA
 
 WORKDIR ${AIRFLOW_USER_HOME}
 
