@@ -28,6 +28,11 @@ if [ -e "/requirements.txt" ]; then
     $(command -v pip) install --user -r /requirements.txt
 fi
 
+# Install plugins if plugins.sh is present
+if [ -e "/plugins.sh"]; then
+    bash plugins.sh
+fi
+
 wait_for_port() {
   local name="$1" host="$2" port="$3"
   local j=0
